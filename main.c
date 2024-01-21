@@ -4,6 +4,7 @@
 #define ever  (;;)
 #define size  sizeof(int)
 
+
 int main()
 {
 	int    len;
@@ -17,7 +18,12 @@ int main()
 	{
 		printf("-> ");
 
-		scanf("%s", cmd);
+		scanf("%c", cmd);
+
+		if (*cmd == '\n')
+		{
+			continue;
+		}
 
 		switch (*cmd) 
 		{
@@ -65,7 +71,6 @@ int main()
 				free(cmd);
 				exit(0);
 			default:
-				puts("unnoknown command");
 				break;
 		}
 		
