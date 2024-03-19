@@ -1,79 +1,17 @@
-#include <stdio.h>
+#include "linkedlist.c"
 #include <stdlib.h>
 
-#define ever  (;;)
-#define size  sizeof(int)
-
+#define SIZE 15
 
 int main()
 {
-	int    len;
-	int*   arr;
-	int*   curr;
+	node* head = malloc(sizeof(node));
+	fill_list(head, SIZE);
+	print_list(head);
 
-	int    decl = 0;
-	char*  cmd  = malloc(8 * sizeof(char));
+	node* reversed = malloc(sizeof(node));
+	reverse(head, SIZE);
+	print_list(reversed);
 
-	for ever
-	{
-		printf("-> ");
-
-		scanf("%c", cmd);
-
-		if (*cmd == '\n')
-		{
-			continue;
-		}
-
-		switch (*cmd) 
-		{
-			case 'n':
-				printf("len: ");
-				scanf("%d", &len);
-
-				arr = malloc(size * len);		
-				curr = arr;
-				decl = 1;
-				break;
-			case 'a':
-				if (!decl)
-				{
-					puts("array is not declared");
-					exit(1);
-				}
-
-				if (arr - curr == len)
-				{
-					puts("array is full");
-					exit(1);
-				}
-
-				printf("input: ");
-				scanf("%d", curr);
-				++curr;
-				break;
-			case 'i':
-				if (!decl)
-				{
-					puts("array is not declared");
-					exit(1);
-				}
-
-				for (int* i = arr; i != (arr + len); ++i)
-				{
-					printf("%d ", *i);
-				}
-				putchar('\n');
-				break;
-			case 'q':
-				if (decl)
-					free(arr);
-				free(cmd);
-				exit(0);
-			default:
-				break;
-		}
-		
-	}
+	return 0;
 }
-
