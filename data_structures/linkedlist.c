@@ -2,32 +2,58 @@
 #include <stdlib.h>
 #include "stack.c"
 
+
 typedef struct node {
 	int val;
 	struct node* next;
 } node;
 
-
-/* pass only empty list */
-void fill_list(node* head, int n)
+void fillempty(node* head, int n)
 {
-	int    i;
-	node*  cur;
+	node* ptr = head;
 
-	cur  = malloc(sizeof(node));
-
-	head->next = cur;
-	head->val  = -1;
-
-	for (i = 1; i <= n; ++i)
+	for (int i = 1; i < n; ++i)
 	{
-		cur->next = malloc(sizeof(node));
-		cur->val = i;
-		cur = cur->next;
+		ptr->val = i;
+		ptr->next = malloc(sizeof(node));
+		ptr = ptr->next;
 	}
 }
 
-int print_list(node* node)
+void fillnotempty(node* head, int n)
+{
+	node* ptr = head;
+
+	for (int i = 1; i < n; ++i)
+	{
+		ptr->val = i;
+		if (ptr->next == NULL) 
+		{
+			ptr->next = malloc(sizeof(node));
+		}
+		ptr = ptr->next;
+	}
+
+}
+
+/* pass only  */
+void fill(node* head, int n)
+{
+	if (head == NULL)
+	{
+		head = malloc(sizeof(node));
+		if (!head)
+		{
+			perror("malloc failed");
+			return;
+		}
+		fillempty(head, n);
+	}
+
+	fillnotempty(head, n);
+}
+
+int print(node* node)
 {
 	while (node != NULL)
 	{
