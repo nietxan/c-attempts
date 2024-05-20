@@ -1,3 +1,4 @@
+#include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "stack.c"
@@ -8,35 +9,18 @@ typedef struct node {
 	struct node* next;
 } node;
 
-void fillempty(node* head, int n)
+void freelist(node* head)
 {
-	node* ptr = head;
+	node* temp;
 
-	for (int i = 1; i < n; ++i)
+	while (head != NULL)
 	{
-		ptr->val = i;
-		ptr->next = malloc(sizeof(node));
-		ptr = ptr->next;
+		temp = head->next;
+		free(head);
+		head = temp;	
 	}
 }
 
-void fillnotempty(node* head, int n)
-{
-	node* ptr = head;
-
-	for (int i = 1; i < n; ++i)
-	{
-		ptr->val = i;
-		if (ptr->next == NULL) 
-		{
-			ptr->next = malloc(sizeof(node));
-		}
-		ptr = ptr->next;
-	}
-
-}
-
-/* pass only  */
 void fill(node* head, int n)
 {
 	if (head == NULL)
@@ -47,50 +31,88 @@ void fill(node* head, int n)
 			perror("malloc failed");
 			return;
 		}
-		fillempty(head, n);
 	}
 
-	fillnotempty(head, n);
+	for (int i = 1; i < n; ++i)
+	{
+		head->val = i;
+		if (head->next == NULL) 
+		{
+			head->next = malloc(sizeof(node));
+			if (!head->next)
+			{
+				perror("malloc failed");
+				return;
+			}
+		}
+		head = head->next;
+	}
+
+	head->val = n;
 }
 
-int print(node* node)
+int print(node* head)
 {
-	while (node != NULL)
+	while (head != NULL)
 	{
-		printf("%d ", node->val);
-		node = node->next;
+		printf("%d ", head->val);
+		head = head->next;
 	}
 	printf("\n");
 
 	return 0;
 }
 
-node* reverse(node* head, int list_size)
+int sizeoflist(node* head)
 {
-	stack*  s;
-	node*   cur;
+	int size;
 
-	s = new_stack(list_size);
+	while (head != NULL)
+	{
+		head = head->next;
+		size++;
+	}
 
+	return size;
+}
+
+void stacktolist(stack* s, node* head)
+{
+	int val;
+
+	while ((val = pop(s)) != INT_MIN) 
+	{
+		head->val = val;
+		head->next = malloc(sizeof(node));
+		head = head->next;
+	}
+}
+
+void listtostack(node* head, stack* s)
+{
 	while (head != NULL)
 	{
 		push(s, head->val);
 		head = head->next;
 	}
-
-	head = malloc(sizeof(node));
-	cur = malloc(sizeof(node));
-
-	head->next = cur;
-	head->val  = -1;
-
-	while (s->top != -1)
-	{
-		cur->next = malloc(sizeof(node));
-		cur = cur->next;
-		cur->val = pop(s);
-	}
-	
-	return head->next;
 }
+
+node* reverse(node* head)
+{
+	stack* s;
+	node* rev;
+
+	rev = malloc(sizeof(node));
+	s = defaultstack(sizeoflist(head));
+
+	listtostack(head, s);
+	stacktolist(s, rev);
+
+	freelist(head);
+	free(s);
+
+	return rev;
+}
+
+
 
