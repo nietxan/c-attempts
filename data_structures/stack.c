@@ -7,7 +7,7 @@
 typedef struct stack {
 	int   ind;
 	const int size;
-	int*  array;
+	int  *array;
 } stack;
 
 stack* defaultstack(int size)
@@ -23,12 +23,14 @@ stack* defaultstack(int size)
 
 	memcpy(s, &stacksize, sizeof(stacksize));
 
-	s->array = malloc(sizeof(int));
+	s->array = malloc(s->size * sizeof(int));
 	if (s->array == NULL) 
 	{
 		perror("malloc of array failed\n");
 		return NULL;
 	}
+
+	printf("%d\n", s->array[0]);
 
 	return s;
 }

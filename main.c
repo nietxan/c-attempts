@@ -5,6 +5,8 @@
 
 #define STACK_SIZE 10
 
+stack* defaultstack(int);
+
 int main(int argc, char* argv[])
 {
 	/*  TESTS */
@@ -12,7 +14,6 @@ int main(int argc, char* argv[])
 	int i;
 	int val;
 	stack* s;
-
 
 	s = defaultstack(STACK_SIZE);
 	assert(s != NULL);
@@ -23,12 +24,9 @@ int main(int argc, char* argv[])
 //	assert(pop(s) == INT_MIN);
 //	assert(peek(s) == INT_MIN);
 
-	for (i = 0; i < STACK_SIZE; ++i)
-	{
-		push(s, i);
-	}
+	for (i = 0; i < STACK_SIZE; push(s, ++i));
 	
-	for (i = 0; i < STACK_SIZE; ++i)
+	for (i = 0; i < s->size; ++i)
 	{	
 		if ((val = pop(s)) == INT_MIN) 
 		{
