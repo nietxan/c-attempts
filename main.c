@@ -5,8 +5,6 @@
 
 #define STACK_SIZE 10
 
-stack* defaultstack(int);
-
 int main(int argc, char* argv[])
 {
 	/*  TESTS */
@@ -16,13 +14,14 @@ int main(int argc, char* argv[])
 	stack* s;
 
 	s = defaultstack(STACK_SIZE);
+	
 	assert(s != NULL);
 	assert(s->array != NULL);
 	assert(s->size == STACK_SIZE);
-	assert(s->ind == 0);
+	assert(s->ind == -1);
 
-//	assert(pop(s) == INT_MIN);
-//	assert(peek(s) == INT_MIN);
+	assert(pop(s) == INT_MIN);
+	assert(peek(s) == INT_MIN);
 
 	for (i = 0; i < STACK_SIZE; push(s, ++i));
 	
@@ -34,8 +33,6 @@ int main(int argc, char* argv[])
 		}
 		printf("%d ", val);
 	}
-
-//	assert(push(s, 11) == 1);		
 
 	return 0;
 }

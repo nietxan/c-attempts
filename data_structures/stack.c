@@ -10,36 +10,34 @@ typedef struct stack {
 	int  *array;
 } stack;
 
-stack* defaultstack(int size)
-{
-	stack stacksize = {.size = size};
 
+stack* defaultstack(const int size)
+{
 	stack* s = malloc(sizeof(stack));
 	if (s == NULL) 
 	{
-		perror("malloc of stack failed\n");
+		fprintf(stderr, "Error: malloc of stack failed\n");
 		return NULL;
 	} 
 
-	memcpy(s, &stacksize, sizeof(stacksize));
-
+	*(int*)&s->size = size;
 	s->array = malloc(s->size * sizeof(int));
+	s->ind = -1;
+
 	if (s->array == NULL) 
 	{
-		perror("malloc of array failed\n");
+		fprintf(stderr, "Error: malloc of array failed\n");
 		return NULL;
 	}
-
-	printf("%d\n", s->array[0]);
 
 	return s;
 }
 
 int push(stack* s, int val)
 {
-	if (s->ind == s->size)
+	if (s->ind == s->size - 1)
 	{
-		perror("stack is full");
+		fprintf(stderr, "Error: stack is full\n");
 		return 1;
 	}
 
@@ -49,9 +47,9 @@ int push(stack* s, int val)
 
 int pop(stack* s)
 {
-	if (s->ind == 0)
+	if (s->ind == -1)
 	{
-		perror("stack is empty");
+		fprintf(stderr, "Error: stack is empty\n");
 		return INT_MIN;
 	}
 	return s->array[s->ind--];
@@ -59,9 +57,9 @@ int pop(stack* s)
 
 int peek(stack* s)
 {
-	if (s->ind == 0)
+	if (s->ind == -1)
 	{
-		perror("stack is empty");
+		fprintf(stderr, "Error: stack is empty\n");
 		return INT_MIN;
 	}
 	return s->array[s->ind];

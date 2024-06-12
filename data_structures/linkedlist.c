@@ -28,7 +28,7 @@ void fill(node* head, int n)
 		head = malloc(sizeof(node));
 		if (!head)
 		{
-			perror("malloc failed");
+			fprintf(stderr, "Error: malloc failed\n");
 			return;
 		}
 	}
@@ -41,7 +41,7 @@ void fill(node* head, int n)
 			head->next = malloc(sizeof(node));
 			if (!head->next)
 			{
-				perror("malloc failed");
+				fprintf(stderr, "Error: malloc failed\n");
 				return;
 			}
 		}
