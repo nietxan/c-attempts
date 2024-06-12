@@ -11,7 +11,7 @@ typedef struct stack {
 } stack;
 
 
-stack* defaultstack(const int size)
+stack* stackconst(const int size)
 {
 	stack* s = malloc(sizeof(stack));
 	if (s == NULL) 
@@ -20,7 +20,7 @@ stack* defaultstack(const int size)
 		return NULL;
 	} 
 
-	*(int*)&s->size = size;
+	*(int*)&(s->size) = size;
 	s->array = malloc(s->size * sizeof(int));
 	s->ind = -1;
 
@@ -32,6 +32,16 @@ stack* defaultstack(const int size)
 
 	return s;
 }
+
+void stackdest(stack* s)
+{
+	if (s->array != NULL)
+	{
+		free(s->array);
+	}
+	free(s);
+}
+
 
 int push(stack* s, int val)
 {

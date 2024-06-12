@@ -1,39 +1,32 @@
 #include "data_structures/linkedlist.c"
-#include <assert.h>
-#include <limits.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-#define STACK_SIZE 10
+void printlist(node* head)
+{
+	if (head == NULL)
+	{
+		printf("\n");
+		return;
+	}
+
+	printf("%d ", head->val);
+	printlist(head->next);
+}
 
 int main(int argc, char* argv[])
 {
-	/*  TESTS */
+	/* LINKED LIST REVERSE */
 
-	int i;
-	int val;
-	stack* s;
+	node* head;
 
-	s = defaultstack(STACK_SIZE);
-	
-	assert(s != NULL);
-	assert(s->array != NULL);
-	assert(s->size == STACK_SIZE);
-	assert(s->ind == -1);
+	head = malloc(sizeof(node));
+	listconst(head, 10);
+	printlist(head);
 
-	assert(pop(s) == INT_MIN);
-	assert(peek(s) == INT_MIN);
+	head = reverse(head);
+	printlist(head);
 
-	for (i = 0; i < STACK_SIZE; push(s, ++i));
-	
-	for (i = 0; i < s->size; ++i)
-	{	
-		if ((val = pop(s)) == INT_MIN) 
-		{
-			exit(1);
-		}
-		printf("%d ", val);
-	}
-
-	return 0;
+	listdest(head);
 }
 
